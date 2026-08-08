@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mesin Pencari Sederhana</title>
+  <style>
+    :root{
+      --bg: #ffffff;
+      --muted: #5f6368;
+      --input-bg: #f1f3f4;
+      --btn-bg: #f8f9fa;
+      --btn-border: rgba(0,0,0,0.12);
+      --shadow: 0 2px 6px rgba(60,64,67,0.15);
+      --accent-blue: #4285F4;
+      --accent-red: #EA4335;
+      --accent-yellow: #FBBC05;
+      --accent-green: #34A853;
+      font-family: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      color:#202124;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* top bar (optional) */
+    .topbar{
+      display:flex;
+      justify-content:flex-end;
+      padding:10px 24px;
+      font-size:14px;
+      color:var(--muted);
+    }
+    .topbar a{ color:var(--muted); text-decoration:none; margin-left:16px; }
+
+    main{
+      min-height: calc(100% - 112px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      padding:32px 24px;
+      box-sizing:border-box;
+    }
+
+    .logo{
+      margin-bottom:24px;
+      font-size:92px;
+      line-height:1;
+      letter-spacing: -4px;
+      display:flex;
+      align-items:center;
+      user-select:none;
+    }
+    .logo span{
+      display:inline-block;
+      font-weight:700;
+      font-family: "Product Sans", Roboto, Arial, sans-serif;
+    }
+    .g1{ color: var(--accent-blue); transform: translateY(2px); }
+    .g2{ color: var(--accent-red); transform: translateY(2px); }
+    .g3{ color: var(--accent-yellow); transform: translateY(2px); }
+    .g4{ color: var(--accent-blue); transform: translateY(2px); }
+    .g5{ color: var(--accent-green); transform: translateY(2px); }
+    .g6{ color: var(--accent-red); transform: translateY(2px); }
+
+    .search-form{
+      width:100%;
+      max-width:640px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    .search-box{
+      width:100%;
+      display:flex;
+      align-items:center;
+      background:var(--input-bg);
+      border-radius:36px;
+      padding:10px 16px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .15s ease, transform .06s ease;
+      border: 1px solid transparent;
+    }
+    .search-box:focus-within{
+      box-shadow: 0 4px 20px rgba(66,133,244,0.18);
+      transform: translateY(-1px);
+      border-color: rgba(66,133,244,0.18);
+    }
+
+    .search-box input{
+      flex:1;
+      border:0;
+      outline:0;
+      font-size:18px;
+      padding:10px 8px;
+      background:transparent;
+      color:inherit;
+    }
+    .search-box button.icon{
+      background:transparent;
+      border:0;
+      color:var(--muted);
+      font-size:18px;
+      cursor:pointer;
+      padding:6px;
+      margin-left:6px;
+    }
+
+    .buttons{
+      margin-top:20px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .btn{
+      background:var(--btn-bg);
+      border:1px solid var(--btn-border);
+      padding:10px 16px;
+      border-radius:4px;
+      cursor:pointer;
+      font-size:14px;
+      color:#3c4043;
+      box-shadow: none;
+      transition: box-shadow .12s ease, transform .08s ease;
+    }
+    .btn:hover{ box-shadow: var(--shadow); transform: translateY(-1px); }
+    .btn.primary{
+      background:#1a73e8;
+      color:#fff;
+      border-color: rgba(0,0,0,0.12);
+    }
+
+    /* footer */
+    footer{
+      border-top:1px solid #e8e8e8;
+      padding:12px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:14px;
+      color:var(--muted);
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .left-links a, .right-links a{ color:var(--muted); text-decoration:none; margin-right:12px; }
+
+    /* Responsive tweaks */
+    @media (max-width:600px){
+      .logo{ font-size:56px; margin-bottom:18px; letter-spacing:-2px; }
+      .search-box{ padding:10px 12px; border-radius:24px; }
+      .search-box input{ font-size:16px; }
+      .buttons{ gap:8px; }
+      .btn{ padding:10px 12px; font-size:14px; }
+      .topbar{ padding:8px 12px; font-size:13px; }
+      footer{ padding:12px; font-size:13px; }
+    }
+
+    /* small accessibility focus */
+    .btn:focus, .icon:focus, input:focus{ outline: 3px solid rgba(66,133,244,0.18); outline-offset:2px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <div class="topbar" role="navigation" aria-label="Top bar">
+    <div style="margin-left:auto;">
+      <a href="#">Gmail</a>
+      <a href="#">Gambar</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="logo" aria-hidden="true" title="Mesin Pencari">
+      <!-- mimic Google logo colors -->
+      <span class="g1">G</span>
+      <span class="g2">o</span>
+      <span class="g3">o</span>
+      <span class="g4">g</span>
+      <span class="g5">l</span>
+      <span class="g6">e</span>
+    </div>
+
+    <form id="searchForm" class="search-form" onsubmit="return false;" role="search" aria-label="Form pencarian">
+      <div class="search-box">
+        <input id="q" name="q" type="search" placeholder="Cari di Google atau ketik URL" aria-label="Kotak pencarian" autocomplete="off" />
+        <button class="icon" type="button" title="Suara" aria-label="Suara (tidak aktif)">
+          <!-- simple mic icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3z" stroke="#5f6368" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19 11v1a7 7 0 0 1-14 0v-1" stroke="#5f6368" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 19v3" stroke="#5f6368" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="buttons" role="group" aria-label="Tombol pencarian">
+        <button class="btn primary" id="searchBtn" type="button">Cari</button>
+        <button class="btn" id="luckyBtn" type="button">Saya Lagi Beruntung</button>
+      </div>
+    </form>
+  </main>
+
+  <footer>
+    <div class="left-links">
+      <a href="#">Indonesia</a>
+      <a href="#">Tentang</a>
+    </div>
+    <div class="right-links">
+      <a href="#">Privasi</a>
+      <a href="#">Ketentuan</a>
+    </div>
+  </footer>
+
+  <script>
+    // Simple behavior: redirect to Google search. Works offline by performing local action if query empty.
+    (function(){
+      const q = document.getElementById('q');
+      const searchBtn = document.getElementById('searchBtn');
+      const luckyBtn = document.getElementById('luckyBtn');
+
+      function doSearch(isLucky){
+        const query = (q.value || '').trim();
+        if(!query){
+          // if empty, go to google homepage
+          window.location.href = 'https://www.google.com';
+          return;
+        }
+        const base = 'https://www.google.com/search?q=';
+        const url = base + encodeURIComponent(query) + (isLucky ? '&btnI=1' : '');
+        // Use location.replace for lucky to avoid back-button trap for btnI, but here consistent:
+        window.location.href = url;
+      }
+
+      searchBtn.addEventListener('click', function(){ doSearch(false); });
+      luckyBtn.addEventListener('click', function(){ doSearch(true); });
+
+      // allow pressing Enter in input to search
+      q.addEventListener('keydown', function(e){
+        if(e.key === 'Enter'){
+          e.preventDefault();
+          doSearch(false);
+        }
+      });
+
+      // basic accessibility: focus the input on load for quick typing on desktop
+      window.addEventListener('load', function(){
+        // on mobile, avoid auto focus that opens keyboard unexpectedly
+        if(window.innerWidth > 700) q.focus();
+      });
+    })();
+  </script>
+</body>
+</html>
